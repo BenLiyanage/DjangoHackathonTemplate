@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: "192.168.33.11"
 
   #shared
-  config.vm.synced_folder "./projects", "/projects"
+  config.vm.synced_folder "./", "/app"
 
   #virtualbox
   if defined? VagrantVbguest
@@ -21,12 +21,12 @@ Vagrant.configure("2") do |config|
     puppet.manifest_file  = "init.pp"
     #puppet.module_path = "modules"
     #puppet.options = "--verbose --debug"
-    #puppet.options = "--verbose --noop"
   end
   
   if Vagrant.has_plugin?("vagrant-cachier")
     # Configure cached packages to be shared between instances of the same base box.
     # More info on http://fgrehm.viewdocs.io/vagrant-cachier/usage
+	# to install: vagrant plugin install vagrant-cachier
     config.cache.scope = :box
 
     # For more information please check http://docs.vagrantup.com/v2/synced-folders/basic_usage.html
