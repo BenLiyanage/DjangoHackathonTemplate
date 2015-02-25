@@ -16,7 +16,7 @@ class core {
 class python {
 
     package { 
-      [ "python", "python-setuptools", "python-dev", "python-pip", ]:
+      [ "python", "python-setuptools", "python-dev", ]:
         ensure => ["installed"],
         require => Exec['apt-update']    
     }
@@ -27,6 +27,13 @@ class python {
       require => Package["python-dev", "python-pip"],
       unless => "pip freeze | grep virtualenv",
     }
+	
+	exec {
+		"python-pip":
+		command => "easy_install -U pip",
+		onlyif => "bash -c 'which pip > /dev/null && exit 1 || exit 0'",
+		require => Package["python"]
+	}
 
 }
 
