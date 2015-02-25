@@ -24,7 +24,8 @@ class python {
     exec {
       "virtualenv":
       command => "/usr/bin/sudo pip install virtualenv",
-      require => Package["python-dev", "python-pip"]
+      require => Package["python-dev", "python-pip"],
+      unless => "pip freeze | grep virtualenv",
     }
 
 }
@@ -44,7 +45,7 @@ class web {
       "django":
       command => "/usr/bin/sudo pip install django",
       require => Package["python-pip"],
-      onlyif => "pip freeze | grep django != ''",
+      unless => "pip freeze | grep Django",
     }
     
     #web server
@@ -52,7 +53,7 @@ class web {
       "gunicorn":
       command => "/usr/bin/sudo pip install gunicorn",
       require => Package["python-pip"],
-      onlyif => "pip freeze | grep unicorn != ''",
+      unless => "pip freeze | grep unicorn",
     }
     
     # static file handler
@@ -60,7 +61,7 @@ class web {
       "whitenoise":
       command => "/usr/bin/sudo pip install whitenoise",
       require => Package["python-pip"],
-      onlyif => "pip freeze | grep whitenoise != ''",
+      unless => "pip freeze | grep whitenoise",
     }
     
     exec {
